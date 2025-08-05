@@ -59,6 +59,42 @@ ADD `password` varchar(100);
  -- Drop/Delete Table
  -- DROP TABLE students;
 
+-- Data Manipulation Language (DML)?
+-- DML is used to manipulate data in the database. 
+
+-- Insert data into the students table
+INSERT INTO students (id, fullname, email, `password`)
+VALUES (1, "John Doe", "John@doe.ca", "password123");
+
+-- Insert multiple rows into the students table
+INSERT INTO students (id, fullname, email, `password`)
+VALUES (2, "Jane Doe", "Jane@doe.ca", "password123"),
+(3, "Alice Doe", "Alice@doe.ca", "password123");
+
+-- Selecting all data columns from the students table
+SELECT * FROM students;
+
+-- Selecting spoecific columns from the students table
+SELECT id, fullname FROM students;
+
+-- Selecting data based on a condition
+SELECT * FROM students WHERE id > 1;
+
+
+-- Update data in students table
+UPDATE students 
+SET `password` = "newPassword"
+WHERE id = 1;
+
+-- Update multiple records
+UPDATE students 
+SET `password` = "newPassword123"
+WHERE id in (1,3);
+
+-- DELETE data from students table 
+DELETE FROM students WHERE id = 1;
+
+
 
 
 
