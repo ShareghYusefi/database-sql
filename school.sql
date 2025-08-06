@@ -64,7 +64,7 @@ ADD `password` varchar(100);
 
 -- Insert data into the students table
 INSERT INTO students (id, fullname, email, `password`)
-VALUES (1, "John Doe", "John@doe.ca", "password123");
+VALUES (3, "John Doe", "John@doe.ca", "password123");
 
 -- Insert multiple rows into the students table
 INSERT INTO students (id, fullname, email, `password`)
@@ -93,6 +93,52 @@ WHERE id in (1,3);
 
 -- DELETE data from students table 
 DELETE FROM students WHERE id = 1;
+
+-- What is a Primary Key (PK)? 
+-- primary key: a unique identifier for a record in a table. It's used to establish a relationship between tables.
+-- auto_increment: automatically generate a unique value for the primary key.
+
+-- Change id columns to auto incrementing PK.
+  ALTER TABLE students
+ CHANGE COLUMN id id int primary key auto_increment;
+
+-- Insert multiple rows into the students table without an id
+INSERT INTO students (fullname, email, `password`)
+VALUES ("Jane Doe", "Jane@doe.ca", "password123"),
+("Alice Doe", "Alice@doe.ca", "password123");
+
+-- What is a Foreign Key (FK)? 
+-- A foreign key is a column in a table which references the primary key of another table. It's used to establish a relationship between the tables.
+
+-- Courses Table
+CREATE TABLE courses (
+	id int primary key auto_increment, 
+    `name` varchar(100), 
+    student_id int,
+    -- student_id(fk) column in the courses table references the id(pk) column in students
+    foreign key (student_id) references students(id)
+);
+
+-- Insert data into courses 
+INSERT INTO courses (name, student_id)
+VALUES ("Math", 2), ("Science", 4), ("History", 5), ("English", 2), ("Art", 1);
+
+-- Inserting a student_id which does not exist in the students table, we will get an error.
+INSERT INTO courses (name, student_id) VALUES ("Math", 10);
+
+-- Ordering by a column in descending/ascending order
+SELECT * FROM courses ORDER BY `name` asc;
+
+-- Limiting the number of rows returned
+SELECT * FROM courses ORDER BY `name` asc limit 3;
+
+-- Aggregate functions
+-- An aggregate function is a function that performs a calculation on a set of values, and returns a single value.
+-- This query will return the student_id column and a count column that shows the number of courses each student is taking. This is accomplished by using the COUNT function with the GROUP BY clause. 
+SELECT student_id, count(student_id) as "Records in Table" FROM courses GROUP BY student_id;
+
+
+
 
 
 
