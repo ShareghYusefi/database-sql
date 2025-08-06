@@ -190,6 +190,35 @@ JOIN newCourses_students ncs ON s.id = ncs.student_id
 JOIN newCourses nc ON ncs.newCourse_id = nc.id
 WHERE s.id = 2;
 
+-- Insert data into new courses 
+INSERT INTO newCourses (name)
+VALUES ("Phycology"), ("Physics"), ("Psychology");
+
+INSERT INTO students (fullname, email, `password`)
+VALUES ("Jill Smith", "Jill@smith.ca", "password123"),
+("Jack Smith", "Jack@smith.ca", "password123");
+
+-- INNER JION or simply JOIN
+-- Show only students and course that have a match in the newCourses_students table
+SELECT * FROM students s
+INNER JOIN newCourses_students ncs ON s.id = ncs.student_id
+JOIN newCourses nc ON ncs.newCourse_id = nc.id;
+
+-- LEFT JOIN
+-- Show all students, even if they are not enrolled in any courses (null is returned for unrelated record columns)
+SELECT * FROM students s
+LEFT JOIN newCourses_students ncs ON s.id = ncs.student_id
+LEFT JOIN newCourses nc ON ncs.newCourse_id = nc.id;
+
+-- RIGHT JOIN 
+-- Show all courses, even if no student is enrolled in them. 
+SELECT * FROM newCourses nc
+RIGHT JOIN newCourses_students ncs ON nc.id = ncs.newCourse_id
+RIGHT JOIN students s ON ncs.student_id = s.id;
+
+-- FULL OUTER JOIN
+-- Show everything from all tables
+-- Not supported by MYSQL. Can be done using UNIONS and LEFT JOINS. 
 
 
 
