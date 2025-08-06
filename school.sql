@@ -64,7 +64,7 @@ ADD `password` varchar(100);
 
 -- Insert data into the students table
 INSERT INTO students (id, fullname, email, `password`)
-VALUES (3, "John Doe", "John@doe.ca", "password123");
+VALUES (1, "John Doe", "John@doe.ca", "password123");
 
 -- Insert multiple rows into the students table
 INSERT INTO students (id, fullname, email, `password`)
@@ -119,7 +119,8 @@ VALUES ("Jane Doe", "Jane@doe.ca", "password123"),
 -- SET NULL: This will set the foreign key colum in the child table (courses) to NULL when a record in the parent table is deleted. 
 -- NO ACTION: This is similar to RESTRICT. PREvents the deletion or udpate of a record in the parent table if there are related records in the child table.
 
--- Courses Table
+-- Courses Table in a one-to-many relationship (one student can take many courses)
+-- One record on students table is associated with multiple records on courses table
 CREATE TABLE courses (
 	id int primary key auto_increment, 
     `name` varchar(100), 
@@ -156,7 +157,38 @@ FROM students
 JOIN courses
 ON student.id = courses.student_id;
 
+-- Many-to-Many Relationship 
+-- A student can take many courses, and a course can have many students enrolled in it. 
+-- A record on the student table is associated with multiple courses, but a record on the courses table can also be associated with many students.
 
+CREATE TABLE newCourses (
+    id int primary key auto_increment,
+    name varchar(100)
+);
+
+-- Insert data into new courses 
+INSERT INTO newCourses (name)
+VALUES ("Math"), ("Science"), ("History"), ("English"), ("Art");
+
+-- We can use a junction/intermediate/bridge table to represent the many to many relationships between two tables. 
+-- This involces a new table with foreign keys that reference the primary keys of the two tables. 
+CREATE TABLE newCourses_students (
+    student_id int, 
+    newCourse_id int, 
+    -- student_id(fk) column in the courses table references the id(pk) column in students
+    foreign key (student_id) references students(id) on delete CASCADE on update CASCADE,
+    foreign key (newCourse_id) references newCourses(id) on delete CASCADE on update CASCADE
+);
+
+-- Insert data into newCourses_students
+INSERT INTO newCourses_students (student_id, newCourse_id)
+VALUES (2,1), (3,2),(2,3),(3,4),(1,5),(3,1),(2,2);
+
+-- Find all newCourses taken by a particular student
+SELECT s.id, s.fullname, s.email, nc.name as `course` FROM students s
+JOIN newCourses_students ncs ON s.id = ncs.student_id
+JOIN newCourses nc ON ncs.newCourse_id = nc.id
+WHERE s.id = 2;
 
 
 
