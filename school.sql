@@ -110,13 +110,23 @@ VALUES ("Jane Doe", "Jane@doe.ca", "password123"),
 -- What is a Foreign Key (FK)? 
 -- A foreign key is a column in a table which references the primary key of another table. It's used to establish a relationship between the tables.
 
+-- What are Cascading actions? 
+-- They are used to define what happens when a record in a parent table is deleted.
+-- There are different types of cascading actions: RESTRICT, CASCADE, SET NULL, and NO ACTION. 
+
+-- RESTRICT: This the default behavior. It prevents the deletion or update of a record in the parent table(students) if there are relatd records in the child table(course).
+-- CASCADE: This will automatically delete or update related records in child table(courses) when the parent table(students) is deletes or updates a record.
+-- SET NULL: This will set the foreign key colum in the child table (courses) to NULL when a record in the parent table is deleted. 
+-- NO ACTION: This is similar to RESTRICT. PREvents the deletion or udpate of a record in the parent table if there are related records in the child table.
+
 -- Courses Table
 CREATE TABLE courses (
 	id int primary key auto_increment, 
     `name` varchar(100), 
     student_id int,
     -- student_id(fk) column in the courses table references the id(pk) column in students
-    foreign key (student_id) references students(id)
+    foreign key (student_id) references students(id) 
+    on delete CASCADE on update CASCADE
 );
 
 -- Insert data into courses 
