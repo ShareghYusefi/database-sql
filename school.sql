@@ -147,6 +147,15 @@ SELECT * FROM courses ORDER BY `name` asc limit 3;
 -- This query will return the student_id column and a count column that shows the number of courses each student is taking. This is accomplished by using the COUNT function with the GROUP BY clause. 
 SELECT student_id, count(student_id) as "Records in Table" FROM courses GROUP BY student_id;
 
+-- Joining Tables 
+-- There are different ways to join tables: Inner Join, Left Join, Right Join, and Full Join. 
+
+-- Inner Join: This returns rows when there is at least one match on both tables. 
+SELECT * 
+FROM students
+JOIN courses
+ON student.id = courses.student_id;
+
 
 
 
